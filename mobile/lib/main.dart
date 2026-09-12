@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
 import 'features/listings/home_screen.dart';
 import 'features/food/restaurants_screen.dart';
@@ -7,7 +8,9 @@ import 'features/messaging/messages_screen.dart';
 import 'features/profile/profile_screen.dart';
 
 void main() {
-  runApp(const SoukApp());
+  // ProviderScope est requis une seule fois, à la racine, pour que tous les
+  // providers Riverpod (listingsProvider, etc.) fonctionnent dans l'app.
+  runApp(const ProviderScope(child: SoukApp()));
 }
 
 class SoukApp extends StatelessWidget {
