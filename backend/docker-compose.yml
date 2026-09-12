@@ -1,0 +1,26 @@
+version: '3.8'
+
+# Lance PostgreSQL (avec PostGIS) et Redis en local pour développer sans rien installer manuellement.
+# Démarrage : docker compose up -d
+
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: souk
+      POSTGRES_PASSWORD: souk_dev_password
+      POSTGRES_DB: souk_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - souk_postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+
+volumes:
+  souk_postgres_data:

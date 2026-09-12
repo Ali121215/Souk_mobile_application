@@ -1,0 +1,41 @@
+name: souk
+description: "Souk — marketplace multi-services mobile pour le Tchad"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+  # Réseau / API
+  dio: ^5.4.0
+
+  # Gestion d'état
+  flutter_riverpod: ^2.5.0
+
+  # Stockage local (mode hors-ligne)
+  drift: ^2.16.0
+  sqlite3_flutter_libs: ^0.5.20
+  path_provider: ^2.1.0
+
+  # Carte et géolocalisation
+  google_maps_flutter: ^2.6.0
+  geolocator: ^12.0.0
+
+  # Notifications push
+  firebase_core: ^3.0.0
+  firebase_messaging: ^15.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.0
+  drift_dev: ^2.16.0
+
+flutter:
+  uses-material-design: true
