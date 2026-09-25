@@ -1,12 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+﻿import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
-  telephone: string; // format international, ex: +23566XXXXXX
+  @Column({ unique: true, nullable: true })
+  telephone: string;
+
+  @Column({ unique: true, nullable: true })
+  email: string;
 
   @Column({ nullable: true })
   nom: string;
@@ -16,6 +19,9 @@ export class User {
 
   @Column({ default: false })
   telephoneVerifie: boolean;
+
+  @Column({ default: false })
+  emailVerifie: boolean;
 
   @CreateDateColumn()
   creeLe: Date;

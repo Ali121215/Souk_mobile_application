@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+﻿import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -7,6 +7,7 @@ import { ListingsModule } from './listings/listings.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 import { JobsModule } from './jobs/jobs.module';
 import { MessagingModule } from './messaging/messaging.module';
+import { AdminModule } from './admin/admin.module';
 import { HealthController } from './common/health.controller';
 
 @Module({
@@ -14,8 +15,8 @@ import { HealthController } from './common/health.controller';
     // Charge le fichier .env et rend les variables disponibles partout via ConfigService
     ConfigModule.forRoot({ isGlobal: true }),
 
-    // Connexion PostgreSQL — synchronize:true est pratique en dev seulement,
-    // à remplacer par de vraies migrations avant la mise en production.
+    // Connexion PostgreSQL â€” synchronize:true est pratique en dev seulement,
+    // Ã  remplacer par de vraies migrations avant la mise en production.
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST || 'localhost',
@@ -27,13 +28,15 @@ import { HealthController } from './common/health.controller';
       synchronize: process.env.NODE_ENV !== 'production',
     }),
 
-    // Un module par domaine métier — reflète le diagramme d'architecture validé
+    // Un module par domaine mÃ©tier â€” reflÃ¨te le diagramme d'architecture validÃ©
     AuthModule,
     ListingsModule,
     RestaurantsModule,
     JobsModule,
     MessagingModule,
+    AdminModule,
   ],
   controllers: [HealthController],
 })
 export class AppModule {}
+

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+﻿import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { Restaurant } from './restaurant.entity';
@@ -25,7 +25,7 @@ export class RestaurantsService {
     return this.menuItems.find({ where: { restaurantId, disponible: true } });
   }
 
-  // Calcule le total côté serveur à partir des vrais prix en base — jamais faire confiance au prix envoyé par le client.
+  // Calcule le total cÃ´tÃ© serveur Ã  partir des vrais prix en base â€” jamais faire confiance au prix envoyÃ© par le client.
   async createOrder(userId: string, dto: CreateOrderDto) {
     const ids = dto.articles.map((a) => a.menuItemId);
     const items = await this.menuItems.find({ where: { id: In(ids) } });
@@ -58,5 +58,21 @@ export class RestaurantsService {
   async updateStatus(orderId: string, statut: OrderStatus) {
     await this.orders.update(orderId, { statut });
     return this.orders.findOne({ where: { id: orderId }, relations: ['articles'] });
+  }
+
+
+  async findMyOrders(userId: string) {
+    const orders = await this.orders.find({
+      where: { userId },
+      relations: ['articles'],
+      order: { creeLe: 'DESC' },
+    });
+    const restaurantIds = [...new Set(orders.map((o) => o.restaurantId))];
+    const restaurants = await this.restaurants.find({ where: { id: In(restaurantIds) } });
+    const restaurantById = new Map(restaurants.map((r) => [r.id, r]));
+    return orders.map((order) => ({
+      ...order,
+      restaurantNom: restaurantById.get(order.restaurantId)?.nom ?? 'Restaurant',
+    }));
   }
 }

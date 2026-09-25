@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
-/// Adresse de l'API backend.
-///
-/// - Émulateur Android : 10.0.2.2 pointe vers le localhost de votre machine.
-/// - Simulateur iOS / navigateur : localhost fonctionne directement.
-/// - Téléphone physique : remplacer par l'IP locale de votre machine (ex: 192.168.1.X).
+/// Adresse de l'API backend, devinée automatiquement selon la plateforme :
+/// - Web (Chrome) : localhost fonctionne directement.
+/// - Émulateur Android : 10.0.2.2 pointe vers le localhost de la machine hôte.
+/// - Téléphone physique : à remplacer par l'IP locale de votre machine.
 const String kApiBaseUrl = String.fromEnvironment(
   'API_BASE_URL',
-  defaultValue: 'http://10.0.2.2:3000/api/v1',
+  defaultValue: kIsWeb ? 'http://localhost:3000/api/v1' : 'http://10.0.2.2:3000/api/v1',
 );
 
 class ApiClient {

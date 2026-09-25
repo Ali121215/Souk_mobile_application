@@ -13,6 +13,10 @@ dependencies:
 
   # Réseau / API
   dio: ^5.4.0
+  url_launcher: ^6.3.0
+
+  # Stockage sécurisé du token de connexion
+  flutter_secure_storage: ^9.2.2
 
   # Gestion d'état
   flutter_riverpod: ^2.5.0

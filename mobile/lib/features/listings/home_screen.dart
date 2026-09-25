@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
+import 'listing_detail_screen.dart';
 import 'listings_providers.dart';
 import 'widgets/listing_card.dart';
 
@@ -96,7 +97,12 @@ class HomeScreen extends ConsumerWidget {
                     crossAxisSpacing: 12,
                     childAspectRatio: 0.82,
                   ),
-                  itemBuilder: (context, index) => ListingCard(listing: listings[index]),
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => ListingDetailScreen(listingId: listings[index].id)),
+                    ),
+                    child: ListingCard(listing: listings[index]),
+                  ),
                 );
               },
             ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
+import 'core/widgets/city_picker.dart';
 import 'features/listings/home_screen.dart';
+import 'features/listings/listings_providers.dart';
 import 'features/food/restaurants_screen.dart';
 import 'features/listings/publish_screen.dart';
 import 'features/messaging/messages_screen.dart';
@@ -29,14 +31,14 @@ class SoukApp extends StatelessWidget {
 
 /// Coquille principale : reprend les 5 onglets validés dans la maquette
 /// (Accueil, Repas, Publier, Messages, Profil).
-class RootShell extends StatefulWidget {
+class RootShell extends ConsumerStatefulWidget {
   const RootShell({super.key});
 
   @override
-  State<RootShell> createState() => _RootShellState();
+  ConsumerState<RootShell> createState() => _RootShellState();
 }
 
-class _RootShellState extends State<RootShell> {
+class _RootShellState extends ConsumerState<RootShell> {
   int _index = 0;
 
   static const _screens = [
@@ -49,10 +51,25 @@ class _RootShellState extends State<RootShell> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedCity = ref.watch(selectedCityProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Souk'),
         centerTitle: false,
+        actions: [
+          // Sélecteur de ville — disponible sur tous les onglets, comme sur la maquette.
+          TextButton.icon(
+            onPressed: () async {
+              final chosen = await showCityPicker(context, current: selectedCity);
+              if (chosen != null) {
+                ref.read(selectedCityProvider.notifier).state = chosen;
+              }
+            },
+            icon: const Icon(Icons.location_on_outlined, color: Colors.white, size: 18),
+            label: Text(selectedCity, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
       ),
       body: IndexedStack(index: _index, children: _screens),
       bottomNavigationBar: NavigationBar(
